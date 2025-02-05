@@ -50,8 +50,8 @@ public class ProductService {
             Product product = repository.getReferenceById(id);
             copyDtoToEntity(productDTO, product);
             product = repository.save(product);
-
             return new ProductDTO(product);
+
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
         }
