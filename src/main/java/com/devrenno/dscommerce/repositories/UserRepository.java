@@ -1,0 +1,22 @@
+package com.devrenno.dscommerce.repositories;
+
+import com.devrenno.dscommerce.dto.UserDetailsProjection;
+import com.devrenno.dscommerce.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    @Query(nativeQuery = true, value = """
+            
+            SELECT u.email AS username, u.password, a.id AS authority_id, a.name AS authority 
+            FROM tb_user u 
+            INNER JOIN tb_user_authority ua ON ua.user_id = u.id
+            INNER JOIN tb_authority a ON a.id = ua.authority_id
+            WHERE u.email = :email
+            
+            """)
+    List<UserDetailsProjection> searchUserAndAuthoritiesByEmail(String email);
+}
