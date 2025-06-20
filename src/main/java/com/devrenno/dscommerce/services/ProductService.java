@@ -1,6 +1,7 @@
 package com.devrenno.dscommerce.services;
 
 import com.devrenno.dscommerce.dto.ProductDTO;
+import com.devrenno.dscommerce.dto.ProductMinDTO;
 import com.devrenno.dscommerce.entities.Product;
 import com.devrenno.dscommerce.repositories.ProductRepository;
 import com.devrenno.dscommerce.services.exceptions.DatabaseException;
@@ -28,9 +29,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable){
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable){
         Page<Product> products = repository.searchByName(name, pageable);
-        return products.map(x -> new ProductDTO(x));
+        return products.map(x -> new ProductMinDTO(x));
     }
 
     @Transactional
