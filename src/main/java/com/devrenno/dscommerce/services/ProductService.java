@@ -1,7 +1,9 @@
 package com.devrenno.dscommerce.services;
 
+import com.devrenno.dscommerce.dto.CategoryDTO;
 import com.devrenno.dscommerce.dto.ProductDTO;
 import com.devrenno.dscommerce.dto.ProductMinDTO;
+import com.devrenno.dscommerce.entities.Category;
 import com.devrenno.dscommerce.entities.Product;
 import com.devrenno.dscommerce.repositories.ProductRepository;
 import com.devrenno.dscommerce.services.exceptions.DatabaseException;
@@ -77,6 +79,13 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setImgUrl(productDTO.getImgUrl());
+
+        product.getCategories().clear();
+        for (CategoryDTO catDTO : productDTO.getCategories()) {
+            Category cat = new Category();
+            cat.setId(catDTO.getId());
+            product.getCategories().add(cat);
+        }
     }
 
 

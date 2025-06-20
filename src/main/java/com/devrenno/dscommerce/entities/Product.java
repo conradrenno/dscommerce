@@ -51,6 +51,10 @@ public class Product {
         return orderItems.stream().map(x -> x.getOrder()).toList();
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
     public Long getId() {
         return id;
     }
