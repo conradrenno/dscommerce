@@ -2,18 +2,22 @@ package com.devrenno.dscommerce.dto;
 
 import com.devrenno.dscommerce.entities.Order;
 import com.devrenno.dscommerce.entities.OrderStatus;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class OrderDTO {
 
     private Long id;
     private Instant moment;
     private OrderStatus status;
-    private UserDTO client;
+    private ClientMinDTO client;
     private PaymentDTO payment;
+
+    @NotEmpty(message = "At least one item is required")
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO() {}
@@ -22,12 +26,12 @@ public class OrderDTO {
         id = order.getId();
         moment = order.getMoment();
         status = order.getStatus();
-        client = new UserDTO(order.getClient());
+        client = new ClientMinDTO(order.getClient());
         payment = order.getPayment() == null ? null : new PaymentDTO(order.getPayment());
         order.getOrderItems().forEach(item -> items.add(new OrderItemDTO(item)));
     }
 
-    public OrderDTO(Long id, Instant moment, OrderStatus status, UserDTO client, PaymentDTO payment, List<OrderItemDTO> items) {
+    public OrderDTO(Long id, Instant moment, OrderStatus status, ClientMinDTO client, PaymentDTO payment, List<OrderItemDTO> items) {
         this.id = id;
         this.moment = moment;
         this.status = status;
@@ -48,7 +52,7 @@ public class OrderDTO {
         return status;
     }
 
-    public UserDTO getClient() {
+    public ClientMinDTO getClient() {
         return client;
     }
 
@@ -66,5 +70,18 @@ public class OrderDTO {
             sum += item.getSubTotal();
         }
         return sum;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderDTO orderDTO)) return false;
+
+        return Objects.equals(id, orderDTO.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
