@@ -45,6 +45,15 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public boolean hasRole(String roleName) {
+        for (Authority authority : authorities) {
+            if (authority.getName().equals(roleName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Long getId() {
         return id;
     }
