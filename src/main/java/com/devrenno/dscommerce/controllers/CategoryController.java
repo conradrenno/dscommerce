@@ -22,5 +22,5 @@ public class CategoryController {
         List<CategoryDTO> categoryDTOS = categoryService.findAll();
         return ResponseEntity.ok(categoryDTOS);
     }
-    
+
 }
